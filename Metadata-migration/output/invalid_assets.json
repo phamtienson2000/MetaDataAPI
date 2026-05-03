@@ -1,0 +1,18 @@
+[
+  {
+    "raw": {
+      "uid": "",
+      "type": "BUSINESS_TERM",
+      "name": null,
+      "description": "<b>Total revenue from completed fictional orders</b>",
+      "owner": "team-beta",
+      "createdOn": "invalid-date",
+      "updatedOn": null,
+      "tags": null
+    },
+    "errors": [
+      "Missing required field: 'uid'",
+      "Missing required field: 'name'"
+    ]
+  }
+]

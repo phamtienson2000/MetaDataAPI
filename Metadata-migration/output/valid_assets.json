@@ -1,0 +1,25 @@
+[
+  {
+    "uid": "asset-001",
+    "type": "DATA_PRODUCT",
+    "name": "Customer Orders",
+    "description": "Contains fictional customer order information",
+    "owner": "team-alpha",
+    "created_on": "2025-01-10T12:30:00+00:00",
+    "updated_on": "2025-02-15T09:00:00+00:00",
+    "tags": [
+      "certified",
+      "sales"
+    ]
+  },
+  {
+    "uid": "asset-002",
+    "type": "DATASET",
+    "name": "orders_raw",
+    "description": null,
+    "owner": null,
+    "created_on": "2025-01-12T08:00:00+00:00",
+    "updated_on": null,
+    "tags": []
+  }
+]
