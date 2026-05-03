@@ -9,23 +9,6 @@ A Python ETL pipeline that reads raw metadata assets from a JSON source, normali
 
 ---
 
-## Assumptions
-
-- Empty string `""` for `uid`, `type`, `name` is treated as missing.
-- Invalid dates are set to `null` rather than rejecting the asset — date is not a required field.
-- HTML is stripped before validation — an empty description after stripping is acceptable.
-- `tags: null` is normalized to `[]` — downstream code expects a list, not null.
-- Output files are overwritten on each run.
-
----
-
-## Questions I Would Ask
-
-1. Should an invalid date reject the whole asset, or just null the field?
-2. Is `type` a free-form string or a fixed enum of allowed values?
-3. Should individual tag values be validated (e.g. no empty strings inside the list)?
-4. What should happen if the input file is missing or malformed — crash or empty output?
-5. Are output paths configurable, or is hard-coding acceptable?
 ## Table of Contents
 
 - [Overview](#overview)
