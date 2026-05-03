@@ -3,6 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MetadataApi.Dtos
 {
+    /// <summary>
+    /// Represents the request body for creating a new metadata asset.
+    /// Required fields are validated automatically by the ASP.NET Core model binding pipeline.
+    /// </summary>
     public class CreateMetadataAssetRequest
     {
         [Required]

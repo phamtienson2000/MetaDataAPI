@@ -2,6 +2,10 @@
 
 namespace MetadataApi.Dtos
 {
+    /// <summary>
+    /// Represents the response body returned to the client for a metadata asset.
+    /// This DTO decouples the internal domain model from the API contract.
+    /// </summary>
     public class MetadataAssetResponse
     {
         public string Uid { get; set; } = string.Empty;

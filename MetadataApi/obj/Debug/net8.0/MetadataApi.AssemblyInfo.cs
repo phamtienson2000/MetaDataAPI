@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MetadataApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+96947c2c622d907069137a6ac02110219ece5e84")]
 [assembly: System.Reflection.AssemblyProductAttribute("MetadataApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MetadataApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

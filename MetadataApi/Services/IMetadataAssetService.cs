@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 namespace MetadataApi.Services
 {
+    /// <summary>
+    /// Defines the contract for metadata asset operations.
+    /// and future replacement of the storage implementation.
+    /// </summary>
     public interface IMetadataAssetService
     {
         MetadataAsset? GetByUid(string uid);

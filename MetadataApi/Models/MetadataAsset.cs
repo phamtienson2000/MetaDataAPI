@@ -2,6 +2,10 @@
 
 namespace MetadataApi.Models
 {
+    /// <summary>
+    /// Represents the internal domain model for a metadata asset.
+    /// This model is used within the service layer and is never exposed directly via the API.
+    /// </summary>
     public class MetadataAsset
     {
         public string Uid { get; set; } = string.Empty;

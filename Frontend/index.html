@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Metadata API</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f5f6fa;
+      color: #2d3436;
+    }
+
+    header {
+      background: #2d3436;
+      color: white;
+      padding: 20px 40px;
+    }
+
+    header h1 {
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    header p {
+      font-size: 13px;
+      color: #b2bec3;
+      margin-top: 4px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 32px auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 24px;
+    }
+
+    /* ── Card ─────────────────────────────── */
+    .card {
+      background: white;
+      border-radius: 10px;
+      padding: 24px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, .08);
+    }
+
+    .card h2 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 18px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    /* ── Form ─────────────────────────────── */
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: #636e72;
+      margin-bottom: 4px;
+      margin-top: 12px;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+    }
+
+    label:first-of-type {
+      margin-top: 0;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid #dfe6e9;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: border .15s;
+    }
+
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: #0984e3;
+      box-shadow: 0 0 0 3px rgba(9, 132, 227, .1);
+    }
+
+    .required {
+      color: #d63031;
+      margin-left: 2px;
+    }
+
+    .hint {
+      font-size: 11px;
+      color: #b2bec3;
+      margin-top: 3px;
+    }
+
+    button {
+      margin-top: 18px;
+      width: 100%;
+      padding: 11px;
+      background: #0984e3;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .15s;
+    }
+
+    button:hover {
+      background: #0773c5;
+    }
+
+    button:active {
+      background: #065fa3;
+    }
+
+    /* ── Toast ────────────────────────────── */
+    #toast {
+      display: none;
+      margin-top: 14px;
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+    }
+
+    #toast.success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    #toast.error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    /* ── Filter bar ───────────────────────── */
+    .filter-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .filter-bar input {
+      flex: 1;
+    }
+
+    .filter-bar select {
+      width: 160px;
+      flex-shrink: 0;
+    }
+
+    .filter-bar button {
+      margin-top: 0;
+      width: auto;
+      padding: 9px 16px;
+    }
+
+    /* ── Asset list ───────────────────────── */
+    #asset-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .asset-item {
+      border: 1px solid #f0f0f0;
+      border-radius: 8px;
+      padding: 14px 16px;
+      background: #fafafa;
+      transition: box-shadow .15s;
+    }
+
+    .asset-item:hover {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .07);
+    }
+
+    .asset-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 6px;
+    }
+
+    .asset-name {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 20px;
+      background: #dfe6e9;
+      color: #636e72;
+      white-space: nowrap;
+    }
+
+    .badge.DATA_PRODUCT {
+      background: #d0e8ff;
+      color: #0056b3;
+    }
+
+    .badge.DATASET {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    .badge.BUSINESS_TERM {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    .asset-uid {
+      font-size: 12px;
+      color: #b2bec3;
+      margin-bottom: 8px;
+    }
+
+    .asset-desc {
+      font-size: 13px;
+      color: #636e72;
+      margin-bottom: 8px;
+    }
+
+    .tags {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      font-size: 11px;
+      padding: 2px 8px;
+      background: #f0f4ff;
+      color: #0984e3;
+      border-radius: 20px;
+    }
+
+    .empty {
+      text-align: center;
+      color: #b2bec3;
+      padding: 40px 0;
+      font-size: 14px;
+    }
+
+    .count {
+      font-size: 12px;
+      color: #b2bec3;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>Metadata API</h1>
+  </header>
+
+  <div class="container">
+
+    <!-- ── LEFT: Create Form ───────────────── -->
+    <div>
+      <div class="card">
+        <h2>Create Asset</h2>
+
+        <label>UID <span class="required">*</span></label>
+        <input id="f-uid" type="text" placeholder="asset-001" />
+
+        <label>Type <span class="required">*</span></label>
+        <select id="f-type">
+          <option value="">Select type...</option>
+          <option value="DATA_PRODUCT">DATA_PRODUCT</option>
+          <option value="DATASET">DATASET</option>
+          <option value="BUSINESS_TERM">BUSINESS_TERM</option>
+        </select>
+
+        <label>Name <span class="required">*</span></label>
+        <input id="f-name" type="text" placeholder="Customer Orders" />
+
+        <label>Description</label>
+        <input id="f-desc" type="text" placeholder="Optional description" />
+
+        <label>Source System <span class="required">*</span></label>
+        <input id="f-source" type="text" placeholder="dummy-source-catalog" />
+
+        <label>Owner</label>
+        <input id="f-owner" type="text" placeholder="team-alpha" />
+
+        <label>Tags</label>
+        <input id="f-tags" type="text" placeholder="certified, sales" />
+        <div class="hint">Comma-separated values</div>
+
+        <button onclick="createAsset()">Create Asset</button>
+
+        <div id="toast"></div>
+      </div>
+    </div>
+
+    <!-- ── RIGHT: Asset List ──────────────── -->
+    <div>
+      <div class="card">
+        <h2>Assets</h2>
+
+        <div class="filter-bar">
+          <input id="search-uid" type="text" placeholder="Search by UID..." onkeyup="handleSearch(event)" />
+          <select id="filter-type" onchange="loadAssets()">
+            <option value="">All types</option>
+            <option value="DATA_PRODUCT">DATA_PRODUCT</option>
+            <option value="DATASET">DATASET</option>
+            <option value="BUSINESS_TERM">BUSINESS_TERM</option>
+          </select>
+          <button onclick="loadAssets()">Refresh</button>
+        </div>
+
+        <div id="count" class="count"></div>
+        <div id="asset-list">
+          <div class="empty">Loading...</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const API = "https://metadata-api.delightfulsmoke-0b9d3338.westeurope.azurecontainerapps.io/api/metadata/assets";
+
+    // ── Load assets ───────────────────────────────────────────────────
+    async function loadAssets() {
+      const type = document.getElementById("filter-type").value;
+      const uid = document.getElementById("search-uid").value.trim();
+
+      const list = document.getElementById("asset-list");
+      list.innerHTML = '<div class="empty">Loading...</div>';
+
+      try {
+        // Search by UID (exact)
+        if (uid) {
+          const res = await fetch(`${API}/${encodeURIComponent(uid)}`);
+          if (res.status === 404) {
+            list.innerHTML = `<div class="empty">No asset found with uid "${uid}"</div>`;
+            document.getElementById("count").textContent = "";
+            return;
+          }
+          const asset = await res.json();
+          renderAssets([asset]);
+          return;
+        }
+
+        // Get all (with optional type filter)
+        const url = type ? `${API}?type=${encodeURIComponent(type)}` : API;
+        const res = await fetch(url);
+        const data = await res.json();
+        renderAssets(data);
+
+      } catch (e) {
+        list.innerHTML = `<div class="empty">Failed to load assets. Check API connection.</div>`;
+      }
+    }
+
+    function renderAssets(assets) {
+      const list = document.getElementById("asset-list");
+      const count = document.getElementById("count");
+
+      if (!assets.length) {
+        list.innerHTML = '<div class="empty">No assets found.</div>';
+        count.textContent = "";
+        return;
+      }
+
+      count.textContent = `${assets.length} asset${assets.length !== 1 ? "s" : ""}`;
+
+      list.innerHTML = assets.map(a => `
+      <div class="asset-item">
+        <div class="asset-header">
+          <div class="asset-name">${esc(a.name)}</div>
+          <span class="badge ${esc(a.type)}">${esc(a.type)}</span>
+        </div>
+        <div class="asset-uid">${esc(a.uid)} ${a.sourceSystem ? "· " + esc(a.sourceSystem) : ""}</div>
+        ${a.description ? `<div class="asset-desc">${esc(a.description)}</div>` : ""}
+        ${a.tags && a.tags.length
+          ? `<div class="tags">${a.tags.map(t => `<span class="tag">${esc(t)}</span>`).join("")}</div>`
+          : ""}
+      </div>
+    `).join("");
+    }
+
+    // ── Create asset ──────────────────────────────────────────────────
+    async function createAsset() {
+      const uid = document.getElementById("f-uid").value.trim();
+      const type = document.getElementById("f-type").value;
+      const name = document.getElementById("f-name").value.trim();
+      const source = document.getElementById("f-source").value.trim();
+      const owner = document.getElementById("f-owner").value.trim();
+      const desc = document.getElementById("f-desc").value.trim();
+      const tags = document.getElementById("f-tags").value
+        .split(",").map(t => t.trim()).filter(Boolean);
+
+      if (!uid || !type || !name || !source) {
+        showToast("Please fill in all required fields (UID, Type, Name, Source System).", "error");
+        return;
+      }
+
+      const body = {
+        uid, type, name, sourceSystem: source,
+        owner: owner || null, description: desc || null, tags
+      };
+
+      try {
+        const res = await fetch(API, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body)
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          showToast(data.error || "Failed to create asset.", "error");
+          return;
+        }
+
+        showToast(`Asset "${name}" created successfully!`, "success");
+        clearForm();
+        loadAssets();
+
+      } catch (e) {
+        showToast("Network error. Please try again.", "error");
+      }
+    }
+
+
+    function handleSearch(e) {
+      if (e.key === "Enter") loadAssets();
+    }
+
+    function clearForm() {
+      ["f-uid", "f-name", "f-source", "f-owner", "f-desc", "f-tags"].forEach(id => {
+        document.getElementById(id).value = "";
+      });
+      document.getElementById("f-type").value = "";
+    }
+
+    function showToast(msg, type) {
+      const t = document.getElementById("toast");
+      t.textContent = msg;
+      t.className = type;
+      t.style.display = "block";
+      setTimeout(() => { t.style.display = "none"; }, 4000);
+    }
+
+    function esc(str) {
+      if (!str) return "";
+      return String(str)
+        .replace(/&/g, "&amp;").replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
+
+    // Load on start
+    loadAssets();
+  </script>
+</body>
+
+</html>
