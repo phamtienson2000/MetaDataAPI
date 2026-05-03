@@ -29,13 +29,13 @@ MetadataApi/
 
 ### URL Metadata API in Azure Cloud.
 | Swagger UI | https://metadata-api.delightfulsmoke-0b9d3338.westeurope.azurecontainerapps.io/swagger |
-![Swagger UI Screenshot](Demo/AzureCloudDemo.png)
+![Swagger UI Screenshot](../Demo/AzureCloudDemo.png)
 
 ### Run Frontend Locally
 
 A simple HTML frontend is available in the `frontend/` folder.
 Open `index.html` using [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) (VS Code extension) to serve it on `http://127.0.0.1:5500`.
-![Frontend](Demo/SimpleFrontend.png)
+![Frontend](../Demo/SimpleFrontend.png)
 
 > **Note:** To connect the local frontend to the live API, CORS must allow `http://127.0.0.1:5500`.
 > This can be configured in the Azure Portal under **Container App → Ingress → CORS**.
