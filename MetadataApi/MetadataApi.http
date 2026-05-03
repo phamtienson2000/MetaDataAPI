@@ -1,0 +1,27 @@
+@MetadataApi_HostAddress = http://localhost:5258
+
+### Create asset
+POST {{MetadataApi_HostAddress}}/api/metadata/assets
+Content-Type: application/json
+
+{
+  "uid": "asset-001",
+  "type": "DATA_PRODUCT",
+  "name": "Customer Orders",
+  "description": "Contains fictional customer order information",
+  "owner": "team-alpha",
+  "sourceSystem": "dummy-source-catalog",
+  "tags": ["certified", "sales"]
+}
+
+### Get by uid
+GET {{MetadataApi_HostAddress}}/api/metadata/assets/asset-001
+Accept: application/json
+
+### Get all
+GET {{MetadataApi_HostAddress}}/api/metadata/assets
+Accept: application/json
+
+### Get filtered by type
+GET {{MetadataApi_HostAddress}}/api/metadata/assets?type=DATA_PRODUCT
+Accept: application/json
