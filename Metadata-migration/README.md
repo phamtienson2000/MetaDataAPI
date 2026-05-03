@@ -105,7 +105,7 @@ Each layer only knows about its immediate neighbors. Swapping any layer (e.g., r
 
 ---
 
-## Getting Started
+## How To Run
 
 **Requirements:** Python 3.8+. No external dependencies — only the standard library.
 
